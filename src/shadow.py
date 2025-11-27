@@ -8,14 +8,17 @@ def shadow_augmentation(df, target_col, minority_class=1, total_synthetic=None,
     minority_df = df[df[target_col] == minority_class]
     X = minority_df[features].values
 
+    # Default light direction
     if light_dir is None:
         light_dir = np.array([1] + [0]*(len(features)-1))
     light_dir = light_dir / np.linalg.norm(light_dir)
 
+    # Default plane normal = light direction
     if shadow_plane_normal is None:
-        shadow_plane_normal = light_point_normal
+        shadow_plane_normal = light_dir
     shadow_plane_normal = shadow_plane_normal / np.linalg.norm(shadow_plane_normal)
 
+    # Default plane origin = 0 vector
     if shadow_plane_point is None:
         shadow_plane_point = np.zeros(len(features))
 
@@ -30,6 +33,7 @@ def shadow_augmentation(df, target_col, minority_class=1, total_synthetic=None,
     for i in range(total_needed):
         idx = np.random.randint(0, len(minority_df))
         original = X[idx]
+
         shadow = project_point(original)
         scale = np.random.uniform(0.5, 1.5)
         synthetic = shadow_plane_point + (shadow - shadow_plane_point) * scale
