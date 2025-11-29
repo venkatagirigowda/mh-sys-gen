@@ -1,9 +1,9 @@
-from .mirror import mirror_neighbor_aug_with_shape
-from .shadow import shadow_augmentation
-from .hybrid import hybrid_augmentation
+from .core import MHSysGen
+from .hybrid_parallel import hybrid_augmentation
+from .hybrid_sequential import sequential_shadow_mirror
 
 __all__ = [
-    "mirror_neighbor_aug_with_shape",
-    "shadow_augmentation",
-    "hybrid_augmentation"
+    "MHSysGen",
+    "hybrid_augmentation",
+    "sequential_shadow_mirror",
 ]
